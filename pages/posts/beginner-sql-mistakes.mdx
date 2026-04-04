@@ -1,0 +1,36 @@
+\
+---
+title: Beginner SQL Mistakes That Distort Analysis
+date: 2026-04-03
+description: Common SQL mistakes that quietly damage analysis quality.
+tag: SQL, Data Analysis
+author: Moses Oni
+---
+
+# Beginner SQL Mistakes That Distort Analysis
+
+SQL mistakes are sneaky because the query still runs, and the result still looks official.
+
+## 1. Using the wrong join
+
+A wrong join can multiply rows and inflate metrics while smiling politely.
+
+## 2. Ignoring nulls
+
+Nulls are not zero. Treating them carelessly can change averages, counts, and filters in ways that feel subtle until they become expensive.
+
+## 3. Grouping on messy categories
+
+If one label appears as `Completed`, `completed`, and `complete`, your chart is already lying a little.
+
+## 4. Averaging when median is more honest
+
+For skewed datasets, averages can be drama queens. Median often tells the calmer truth.
+
+## 5. Skipping validation
+
+I like to sanity-check outputs after every major transformation. A fast validation query can save a long embarrassment.
+
+## Final Thought
+
+The goal is not just to write SQL that works. It is to write SQL that deserves trust.

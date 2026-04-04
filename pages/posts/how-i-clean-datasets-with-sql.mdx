@@ -1,0 +1,43 @@
+\
+---
+title: How I Clean Any Dataset Using SQL
+date: 2026-04-03
+description: A practical SQL-first workflow for cleaning datasets before analysis.
+tag: SQL, Data Analysis, Data Cleaning
+author: Moses Oni
+---
+
+# How I Clean Any Dataset Using SQL
+
+Most datasets do not arrive wearing a tuxedo. They arrive rumpled, contradictory, and holding three versions of the same category label.
+
+My default workflow looks like this:
+
+## 1. Inspect before touching anything
+
+I start with:
+- row counts
+- null checks
+- distinct values
+- suspicious categories
+- data type mismatches
+
+## 2. Preserve the raw layer
+
+I try not to destroy the original import. Raw tables are receipts. If I need to explain what changed later, I want that trail.
+
+## 3. Normalize category values
+
+A category with five spellings is really five tiny landmines. Standardizing values early makes aggregation more trustworthy.
+
+## 4. Check duplicates before summarizing
+
+Averages and counts become fiction very quickly when duplicate records are hiding in the room.
+
+## 5. Build clean views for analysis
+
+I prefer analysis-ready views because they keep reporting logic separate from the raw layer.
+
+## Final Thought
+
+Data cleaning is not glamorous, but it is the part that decides whether the final dashboard is insight or decoration.
