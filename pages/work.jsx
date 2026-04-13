@@ -31,7 +31,7 @@ export default function Work() {
           </p>
           <div className="select-none flex justify-center space-x-4 items-center mt-2 text-gray-400">
             <span className="text-gray-300">~~~~~~~~</span>
-            <p className="text-[#000] dark:text-[#fff]">?</p>
+            <p className="text-[#000] dark:text-[#fff]">✦</p>
             <span className="text-gray-300">~~~~~~~~</span>
           </div>
         </div>

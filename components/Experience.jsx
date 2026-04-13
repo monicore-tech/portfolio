@@ -45,7 +45,7 @@ const Experience = () => {
         </div>
         <div className="flex justify-center select-none space-x-8 items-center  my-4">
           <span className="text-gray-300">~~~~~~~~</span>
-          <p className="text-[#000] dark:text-[#fff]">?</p>
+          <p className="text-[#000] dark:text-[#fff]">✦</p>
           <span className="text-gray-300">~~~~~~~~</span>
         </div>
       </div>
