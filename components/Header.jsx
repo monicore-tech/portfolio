@@ -3,52 +3,42 @@ import { useState, useEffect, useRef } from "react";
 
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
-import Image from "next/image";
 import Link from "next/link";
 
 import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
-
-import pranjal_header_black from "@/public/pranjal-header-black.svg";
-import pranjal_header_white from "@/public/pranjal-header-white.svg";
+import { siteConfig } from "@/content/shared/site";
 
 const Header = () => {
   const { systemTheme, theme, setTheme } = useTheme();
   const router = useRouter().asPath;
   const [mounted, setMounted] = useState(false);
-  let Links = [
-    { name: "timeline", link: "/timeline" },
-    { name: "work", link: "/work" },
-    { name: "about", link: "/about" },
-    { name: "tech", link: "/tech" },
-  ];
   const [isScrolled, setIsScrolled] = useState(false);
-  let [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const touchRef = useRef();
+
   const clickHandler = (link) => {
-    if (router != link) {
+    if (router !== link) {
       setTimeout(() => {
         setOpen(false);
       }, 700);
     }
   };
+
   const useOutsideAlerter = (ref) => {
     useEffect(() => {
-      /**
-       * Alert if clicked on outside of element
-       */
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target)) {
           setOpen(false);
         }
       }
-      // Bind the event listener
+
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
-        // Unbind the event listener on clean up
         document.removeEventListener("mousedown", handleClickOutside);
       };
     }, [ref]);
   };
+
   useOutsideAlerter(touchRef);
 
   useEffect(() => {
@@ -65,8 +55,11 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   if (!mounted) return null;
+
   const currentTheme = theme === "system" ? systemTheme : theme;
+
   return (
     <nav
       ref={touchRef}
@@ -78,31 +71,41 @@ const Header = () => {
     >
       <div className="flex justify-between md:space-x-10 lg:space-x-12 xl:space-x-16 md:flex items-center place-items-center md:justify-center py-3 md:px-10 px-8">
         <div className="select-none order-2 md:order-1 cursor-pointer flex items-center text-gray-800">
-          <Link href={"/"} className="">
-            {currentTheme === "dark" ? (
-              <Image src={pranjal_header_white} alt="header" width="100" />
-            ) : (
-              <Image src={pranjal_header_black} alt="header" width="100" />
-            )}
+          <Link href="/" className="">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 via-indigo-500 to-red-400 text-sm font-bold text-white">
+                {siteConfig.profile.initials}
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="font-out text-sm font-semibold dark:text-white">
+                  {siteConfig.profile.brand}
+                </span>
+                <span className="text-[0.65rem] text-gray-500 dark:text-white/60">
+                  {siteConfig.profile.title}
+                </span>
+              </div>
+            </div>
           </Link>
         </div>
         {currentTheme === "dark" ? (
           <button
+            type="button"
             onClick={() => {
               setTheme("light");
             }}
             className="w-max md:order-8 fill-purple-600 "
           >
-            <MdOutlineLightMode className="w-4 h-4 " />{" "}
+            <MdOutlineLightMode className="w-4 h-4 " />
           </button>
         ) : (
           <button
+            type="button"
             onClick={() => {
               setTheme("dark");
             }}
             className="w-max md:order-8 fill-purple-600 "
           >
-            <MdOutlineDarkMode className="w-4 h-4" />{" "}
+            <MdOutlineDarkMode className="w-4 h-4" />
           </button>
         )}
 
@@ -133,25 +136,18 @@ const Header = () => {
             open ? "top-[3.5rem]" : "top-[-490px]"
           }`}
         >
-          {Links.map((link) => (
+          {siteConfig.navigation.map((link) => (
             <li key={link.name} className="md:ml-8 text-base md:my-0 my-7">
               <Link
                 href={link.link}
-                onClick={() => clickHandler(`${link.name}`)}
+                onClick={() => clickHandler(link.link)}
                 className={`${
                   router === link.link
                     ? " text-purple-400 font-out"
                     : " text-gray-700 dark:text-white font-out"
                 } hover:text-purple-500 dark:hover:text-purple-500 duration-500`}
               >
-                <span>
-                  {link.name}
-                  {link.name === "timeline" && (
-                    <sup className="font-semibold text-[8px] border-sky-100 rounded bg-red-600 px-1 text-white">
-                      1
-                    </sup>
-                  )}
-                </span>
+                <span>{link.name}</span>
               </Link>
             </li>
           ))}

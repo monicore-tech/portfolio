@@ -1,48 +1,11 @@
 import React from "react";
+import { timelineContent } from "@/content/timeline";
 
 const TimeLine = () => {
-  const data = [
-    {
-      id: 0,
-      title: "Digital Specialist Engineer",
-      duration: "July 2022",
-      org: "Infosys",
-      skills: ["React.js", "Redux.js", "SASS", "TypeScript"],
-      class:
-        "bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300",
-    },
-    {
-      id: 1,
-      title: "Web Developer Trainee",
-      duration: "Feb 2021 - Jun 2021",
-      org: "Coding Blocks",
-      skills: ["JavaScript", "React.js", "Node.js", "Express.js", "MongoDB"],
-      class:
-        "bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300",
-    },
-    {
-      id: 2,
-      title: "Graduate Rotational Internship",
-      duration: "Sep 2020 - Oct 2020",
-      org: "The Spark Foundation",
-      skills: ["React.js", "Stripe", "JWT"],
-      class:
-        "bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300",
-    },
-    {
-      id: 3,
-      title: "Data Analyst Intern",
-      duration: "",
-      org: "The Shaadi Times",
-      skills: ["Python", "Data Analysis", "Dashboard"],
-      class:
-        "bg-pink-100 text-pink-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300",
-    },
-  ];
   return (
     <div>
       <ol className="relative border-s border-gray-200 dark:border-gray-700">
-        {data.map((item) => (
+        {timelineContent.items.map((item) => (
           <li className="mb-10 ms-6" key={item.id}>
             <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
               <svg
@@ -57,7 +20,7 @@ const TimeLine = () => {
             </span>
             <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
               {item.title}{" "}
-              {item.id === 0 && (
+              {item.latest && (
                 <span className="bg-red-500 text-[#fff] text-sm font-medium me-2 px-2.5 py-0.5 border-sky-100 rounded ms-3">
                   Latest
                 </span>
@@ -69,7 +32,7 @@ const TimeLine = () => {
             <p>{item.org}</p>
             <div className="flex flex-wrap mt-8">
               {item.skills.map((i, idx) => (
-                <span key={idx} className={`${item.class}`}>
+                <span key={idx} className={item.badgeClass}>
                   {i}
                 </span>
               ))}

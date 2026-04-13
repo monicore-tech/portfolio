@@ -1,6 +1,9 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import { siteConfig } from "@/content/shared/site";
 
 export default function Document() {
+  const imageUrl = `${siteConfig.seo.siteUrl}${siteConfig.seo.imagePath}`;
+
   return (
     <Html
       className="scroll-smooth"
@@ -8,63 +11,32 @@ export default function Document() {
       lang="en"
     >
       <Head>
-        {/* <title>pranjal ✦ developer, designer</title> */}
-        <meta name="title" content="pranjal ✦ developer, designer" />
-        <meta name="description" content="Developer // Designer // Weeb" />
-
-        {/* <!-- Open Graph / Facebook --> */}
+        <meta name="title" content={siteConfig.seo.defaultTitle} />
+        <meta name="description" content={siteConfig.seo.description} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://pranjalshikhar.vercel.app/" />
-        <meta property="og:title" content="pranjal ✦ developer, designer" />
-        <meta
-          property="og:description"
-          content="Developer // Designer // Weeb"
-        />
-        <meta
-          property="og:image"
-          content="https://res.cloudinary.com/dhtviyhse/image/upload/v1682600618/pranjalshikhar_i8znzx.jpg"
-        />
-
-        {/* <!-- Twitter --> */}
+        <meta property="og:url" content={siteConfig.seo.siteUrl} />
+        <meta property="og:title" content={siteConfig.seo.defaultTitle} />
+        <meta property="og:description" content={siteConfig.seo.description} />
+        <meta property="og:image" content={imageUrl} />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta
-          property="twitter:url"
-          content="https://pranjalshikhar.vercel.app/"
-        />
+        <meta property="twitter:url" content={siteConfig.seo.siteUrl} />
         <meta
           property="twitter:title"
-          content="pranjal ✦ developer, designer"
+          content={siteConfig.seo.defaultTitle}
         />
         <meta
           property="twitter:description"
-          content="Developer // Designer // Weeb"
+          content={siteConfig.seo.description}
         />
-        <meta
-          property="twitter:image"
-          content="https://res.cloudinary.com/dhtviyhse/image/upload/v1682600618/pranjalshikhar_i8znzx.jpg"
-        />
-
-        {/* whatsapp */}
-        <meta property="og:site_name" content="pranjal ✦ developer, designer" />
-        <meta property="og:title" content="pranjal ✦ developer, designer" />
-        <meta
-          property="og:description"
-          content="Developer // Designer // Weeb"
-        />
-        <meta
-          property="og:image"
-          itemprop="image"
-          content="https://res.cloudinary.com/dhtviyhse/image/upload/v1682600618/pranjalshikhar_i8znzx.jpg"
-        />
-        <meta property="og:type" content="website" />
-
-        {/* canonical links */}
-        <link rel="canonical" href="https://pranjalshikhar.vercel.app/" />
+        <meta property="twitter:image" content={imageUrl} />
+        <meta property="og:site_name" content={siteConfig.seo.siteName} />
+        <meta property="og:image" itemProp="image" content={imageUrl} />
+        <link rel="canonical" href={siteConfig.seo.siteUrl} />
         <link
           rel="search"
           href="/opensearch.xml"
           type="application/opensearchdescription+xml"
-          title="pranjal ✦ developer, designer"
+          title={siteConfig.seo.defaultTitle}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
