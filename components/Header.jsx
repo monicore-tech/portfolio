@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
 import { siteConfig } from "@/content/shared/site";
@@ -88,25 +89,31 @@ const Header = () => {
           </Link>
         </div>
         {currentTheme === "dark" ? (
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
             type="button"
             onClick={() => {
               setTheme("light");
             }}
-            className="w-max md:order-8 fill-purple-600 "
+            className="w-max md:order-8 fill-purple-600 border border-white p-2"
           >
             <MdOutlineLightMode className="w-4 h-4 " />
-          </button>
+          </motion.button>
         ) : (
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
             type="button"
             onClick={() => {
               setTheme("dark");
             }}
-            className="w-max md:order-8 fill-purple-600 "
+            className="w-max md:order-8 fill-purple-600 border border-black p-2"
           >
             <MdOutlineDarkMode className="w-4 h-4" />
-          </button>
+          </motion.button>
         )}
 
         <div

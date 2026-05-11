@@ -2,12 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-weight: 400;
+}
+
 * {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
+}
+
+.brutal-border {
+  @apply border border-black dark:border-white;
+}
+
+.no-round {
+  border-radius: 0 !important;
+}
+
+body {
+  @apply bg-white dark:bg-black text-black dark:text-white transition-colors duration-0;
+  font-variation-settings: 'wght' var(--font-weight);
 }
 
 *::selection {
-  @apply bg-[#00FFFF] dark:bg-[#f81ce5];
+  @apply bg-black text-white dark:bg-white dark:text-black;
+}
+
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
 
 ::-webkit-scrollbar {
@@ -34,7 +60,7 @@
 @layer base {
   * {
     box-sizing: border-box;
-    scroll-behavior: smooth;
+    @apply border-black dark:border-white;
   }
   .wave {
     animation-name: wave-animation;
