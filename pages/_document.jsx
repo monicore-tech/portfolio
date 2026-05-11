@@ -77,7 +77,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="back font-out mx-auto bg-[#fffdfd] dark:bg-[#000000] overflow-x-hidden lg:transform-gpu ">
+      <body className="back font-out mx-auto bg-white dark:bg-black overflow-x-hidden lg:transform-gpu no-round">
         <Main />
         <NextScript />
       </body>

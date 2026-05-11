@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Head from "next/head";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 import Contact from "@/components/Contact";
 import Experience from "@/components/Experience";
@@ -10,13 +12,31 @@ import { homeContent } from "@/content/home";
 import { siteConfig } from "@/content/shared/site";
 
 export default function Home() {
+  const heroRef = useRef(null);
+  const headlineRef = useRef(null);
+
   useEffect(() => {
-    console.clear();
-    console.log.apply(console, [
-      `%c ${homeContent.consoleMessage} %c\n`,
-      "color: #fff; background: #8000ff; padding:5px 0;",
-      "background: #242424; padding:5px 5px 5px 0",
-    ]);
+    let ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        pin: headlineRef.current,
+        pinSpacing: false,
+      });
+
+      gsap.to(headlineRef.current, {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "center top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    });
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -25,39 +45,36 @@ export default function Home() {
         <title>{homeContent.pageTitle}</title>
         <link rel="icon" href={siteConfig.seo.favicon} />
       </Head>
-      <div className="lg:min-h-screen px-10 sm:px-20 md:px-32 lg:mb-12 lg:px-60 mx-auto max-w-[75rem]">
-        <div className="lg:h-screen 2xl:h-max max-w-[90rem] mx-auto">
-          <div className="flex flex-row justify-start items-center mt-20">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 via-indigo-500 to-red-400 text-2xl font-black text-white shadow-xl">
-              {siteConfig.profile.initials}
-            </div>
-            <div className="flex flex-col ml-4">
-              <h2 className="flex sm:text-2xl md:text-2xl lg:text-2xl">
-                <span className="font-semibold">{siteConfig.profile.name}</span>
-              </h2>
-              <h3 className="text-[#717171bb]">{siteConfig.profile.title}</h3>
-              <h3>
-                <Link
-                  href={homeContent.primaryLink}
-                  target="_blank"
-                  className="text-[#717171bb] flex items-center"
-                >
-                  <p>{homeContent.linkLabel}</p>
-                  <BsArrowUpRight className="stroke-1 h-3" />
-                </Link>
-              </h3>
-            </div>
+      <div className="px-6 md:px-12 lg:px-24 mx-auto max-w-[90rem]">
+        <section ref={heroRef} className="h-screen flex flex-col justify-center border-b border-black dark:border-white">
+          <div ref={headlineRef} className="z-10">
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none">
+              {siteConfig.profile.name}
+            </h1>
+            <h2 className="text-2xl md:text-4xl mt-4 opacity-70 uppercase italic">
+              {siteConfig.profile.title}
+            </h2>
           </div>
-          <div className="mt-12 text-base md:text-xl lg:text-xl xl:text-xl 2xl:text-xl">
-            <p className="sm:leading-6 md:leading-6 lg:leading-8">
+
+          <div className="mt-12 max-w-3xl text-xl md:text-2xl uppercase border-l-4 border-black dark:border-white pl-6">
+            <p>
               {siteConfig.profile.tagline} {homeContent.description}
             </p>
+            <Link
+              href={homeContent.primaryLink}
+              target="_blank"
+              className="mt-6 flex items-center gap-2 hover:line-through"
+            >
+              <span>{homeContent.linkLabel}</span>
+              <BsArrowUpRight className="h-5 w-5" />
+            </Link>
           </div>
-        </div>
-        <div className="mt-28 mx-auto">
+        </section>
+
+        <div className="mt-28">
           <Experience />
         </div>
-        <div className="mt-28 mx-auto ">
+        <div className="mt-28">
           <Contact />
         </div>
       </div>
