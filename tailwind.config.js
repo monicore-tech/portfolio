@@ -7,6 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        apple: {
+          text: "#1d1d1f",
+          subtext: "#86868b",
+          blue: "#0071e3",
+          bg: "#f5f5f7",
+          gray: "#fbfbfd",
+        },
+      },
       keyframes: {
         text: {
           "0%, 100%": {
@@ -86,6 +95,14 @@ module.exports = {
       },
 
       fontFamily: {
+        apple: [
+          "SF Pro Text",
+          "SF Pro Icons",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
         space: ["Space Mono", "monospace", "sans-serif"],
         deca: ["Lexend Deca", "Inter", "sans-serif"],
         app: ["Homemade Apple", "cursive"],

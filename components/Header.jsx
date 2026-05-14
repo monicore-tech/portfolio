@@ -1,11 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
-import { useState, useEffect, useRef } from "react";
-
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-
 import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
+import { HiOutlineMenuAlt4, HiOutlineX } from "react-icons/hi";
 import { siteConfig } from "@/content/shared/site";
 
 const Header = () => {
@@ -13,147 +11,103 @@ const Header = () => {
   const router = useRouter().asPath;
   const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const touchRef = useRef();
-
-  const clickHandler = (link) => {
-    if (router !== link) {
-      setTimeout(() => {
-        setOpen(false);
-      }, 700);
-    }
-  };
-
-  const useOutsideAlerter = (ref) => {
-    useEffect(() => {
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          setOpen(false);
-        }
-      }
-
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [ref]);
-  };
-
-  useOutsideAlerter(touchRef);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 70) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
     setMounted(true);
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   if (!mounted) return null;
-
   const currentTheme = theme === "system" ? systemTheme : theme;
 
   return (
-    <nav
-      ref={touchRef}
-      className={`${
-        isScrolled && "bg-opacity-[0.5] shadow-md drop-shadow-lg "
-      } font-medium duration-500 bg-opacity-50 transition-all linear z-40 dark:text-white w-[75%] sm:w-[75%] md:w-[70%] lg:w-[55%] xl:w-[50%] max-w-6xl mx-auto  bg-white dark:bg-[#35353579] ${
-        open && "dark:bg-[#000] bg-opacity-100"
-      } drop-shadow-xs backdrop-blur-sm top-4 sticky rounded-2xl`}
+    <header
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled || isMobileMenuOpen
+          ? "bg-white/80 dark:bg-[#1d1d1f]/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm"
+          : "bg-transparent"
+      }`}
     >
-      <div className="flex justify-between md:space-x-10 lg:space-x-12 xl:space-x-16 md:flex items-center place-items-center md:justify-center py-3 md:px-10 px-8">
-        <div className="select-none order-2 md:order-1 cursor-pointer flex items-center text-gray-800">
-          <Link href="/" className="">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 via-indigo-500 to-red-400 text-sm font-bold text-white">
-                {siteConfig.profile.initials}
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-out text-sm font-semibold dark:text-white">
-                  {siteConfig.profile.brand}
-                </span>
-                <span className="text-[0.65rem] text-gray-500 dark:text-white/60">
-                  {siteConfig.profile.title}
-                </span>
-              </div>
-            </div>
-          </Link>
-        </div>
-        {currentTheme === "dark" ? (
-          <button
-            type="button"
-            onClick={() => {
-              setTheme("light");
-            }}
-            className="w-max md:order-8 fill-purple-600 "
-          >
-            <MdOutlineLightMode className="w-4 h-4 " />
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => {
-              setTheme("dark");
-            }}
-            className="w-max md:order-8 fill-purple-600 "
-          >
-            <MdOutlineDarkMode className="w-4 h-4" />
-          </button>
-        )}
+      <div className="max-w-screen-xl mx-auto px-6 h-12 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="w-7 h-7 rounded-full bg-apple-blue flex items-center justify-center text-white text-[0.65rem] font-bold">
+            {siteConfig.profile.initials}
+          </div>
+          <span className="text-sm font-semibold tracking-tight text-apple-text dark:text-white">
+            {siteConfig.profile.brand}
+          </span>
+        </Link>
 
-        <div
-          onClick={() => setOpen(!open)}
-          className="transition-all duration-500 ease-in order-3 text-lg flex flex-col space-y-[0.2rem]  cursor-pointer items-center font-semibold md:hidden"
-        >
-          <div
-            className={` ${
-              open && "rotate-45 translate-y-[5px] "
-            } relative rounded-xl origin-center transition-all duration-500 ease-in w-4 h-[0.1125rem] dark:bg-white/70 dark:text-white/70 fill-black text-black bg-black`}
-          ></div>
-          <div
-            className={` ${
-              open && "opacity-0 translate-x-20"
-            } relative rounded-xl origin-center transition-all duration-1000 ease-in-out w-4 h-[0.1rem] dark:bg-white/70 dark:text-white/70 fill-black text-black bg-black `}
-          ></div>
-          <div
-            className={` ${
-              open && "-rotate-45 -translate-y-[5px]"
-            } relative rounded-xl origin-center transition-all duration-500 ease-in w-4 h-[0.1125rem] dark:bg-white/70 dark:text-white/70 fill-black text-black bg-black`}
-          ></div>
-        </div>
-        <ul
-          className={` rounded-3xl md:rounded-none  ${
-            open ? "dark:bg-[#000]" : "dark:bg-[#35353500]"
-          } bg-white  py-4 md:py-0 md:bg-inherit font-semibold order-4 md:flex md:items-center md:pb-0 pb-8 absolute md:static bg-light-blue md:bg-none md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 lg:transition-none transition-all duration-500 ease-in ${
-            open ? "top-[3.5rem]" : "top-[-490px]"
-          }`}
-        >
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8">
           {siteConfig.navigation.map((link) => (
-            <li key={link.name} className="md:ml-8 text-base md:my-0 my-7">
-              <Link
-                href={link.link}
-                onClick={() => clickHandler(link.link)}
-                className={`${
-                  router === link.link
-                    ? " text-purple-400 font-out"
-                    : " text-gray-700 dark:text-white font-out"
-                } hover:text-purple-500 dark:hover:text-purple-500 duration-500`}
-              >
-                <span>{link.name}</span>
-              </Link>
-            </li>
+            <Link
+              key={link.name}
+              href={link.link}
+              className={`text-xs font-medium tracking-tight hover:text-apple-blue transition-colors ${
+                router === link.link
+                  ? "text-apple-blue"
+                  : "text-apple-subtext dark:text-gray-400"
+              }`}
+            >
+              {link.name.charAt(0).toUpperCase() + link.name.slice(1)}
+            </Link>
           ))}
-        </ul>
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
+            className="p-1 text-apple-subtext hover:text-apple-blue transition-colors"
+          >
+            {currentTheme === "dark" ? (
+              <MdOutlineLightMode className="w-4 h-4" />
+            ) : (
+              <MdOutlineDarkMode className="w-4 h-4" />
+            )}
+          </button>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-1 text-apple-subtext hover:text-apple-blue transition-colors"
+          >
+            {isMobileMenuOpen ? (
+              <HiOutlineX className="w-5 h-5" />
+            ) : (
+              <HiOutlineMenuAlt4 className="w-5 h-5" />
+            )}
+          </button>
+        </div>
       </div>
-    </nav>
+
+      {/* Mobile Navigation Dropdown */}
+      {isMobileMenuOpen && (
+        <nav className="md:hidden bg-white/80 dark:bg-[#1d1d1f]/80 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="px-6 py-8 flex flex-col gap-6">
+            {siteConfig.navigation.map((link) => (
+              <Link
+                key={link.name}
+                href={link.link}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`text-sm font-medium tracking-tight hover:text-apple-blue transition-colors ${
+                  router === link.link
+                    ? "text-apple-blue"
+                    : "text-apple-subtext dark:text-gray-400"
+                }`}
+              >
+                {link.name.charAt(0).toUpperCase() + link.name.slice(1)}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
+    </header>
   );
 };
 
